@@ -4,6 +4,7 @@ import numpy as np
 import json
 import joblib
 import yaml
+import os
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -55,7 +56,6 @@ def main():
         "all_models": results
     }
     # Asegurarse de que exista la carpeta evaluation
-    import os
     os.makedirs("evaluation", exist_ok=True)
     with open("evaluation/metrics_train.json", "w") as f:
         json.dump(metrics, f)

@@ -55,4 +55,5 @@ stages:
     outs:
       - evaluation/shap_summary.png
       - evaluation/shap_dependence.png
+      - evaluation/shap_feature_importance.png
       - evaluation/shap_force.html

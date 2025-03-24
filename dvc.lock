@@ -57,8 +57,8 @@ stages:
       size: 34
     - path: src/train.py
       hash: md5
-      md5: db1c1ec52d4b084ab00019fb270f3ca7
-      size: 2250
+      md5: b276feeaaf7073bf47394b8a315b5fa3
+      size: 2246
     outs:
     - path: evaluation/metrics_train.json
       hash: md5
@@ -117,18 +117,22 @@ stages:
       size: 4564
     - path: src/explain.py
       hash: md5
-      md5: 52e2fd213e9c599e4505d2e6d0063fbf
-      size: 2647
+      md5: 69cd17ebf188188787222e648ab211ed
+      size: 2646
     outs:
     - path: evaluation/shap_dependence.png
       hash: md5
-      md5: bde986506cfbce166c9ecb821d848eb5
-      size: 56850
+      md5: aefbbbcdbce89b7d9806baeeaeffe59a
+      size: 54650
+    - path: evaluation/shap_feature_importance.png
+      hash: md5
+      md5: fec8ddcb6becf7de7d125284c5b3c7d9
+      size: 44507
     - path: evaluation/shap_force.html
       hash: md5
-      md5: 0a9495bd0daaa49382ea17ad77551e9d
-      size: 305459
+      md5: 10c15f1d2fc5fe5a394e65291fb7a170
+      size: 305177
     - path: evaluation/shap_summary.png
       hash: md5
-      md5: 8d8b05dcda4d72dd04ac0614f6c5bee0
-      size: 121337
+      md5: 8c7a5914ac4ebcd51e5222080f2f9819
+      size: 122145
