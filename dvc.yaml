@@ -1,0 +1,58 @@
+stages:
+  generate_data:
+    cmd: python3 src/generate_data.py
+    deps:
+      - src/generate_data.py
+    outs:
+      - data/raw/train.csv
+      - data/raw/test.csv
+
+  transform_data:
+    cmd: python3 src/transform_data.py
+    deps:
+      - data/raw/train.csv
+      - data/raw/test.csv
+      - src/transform_data.py
+    outs:
+      - data/processed/train_processed.csv
+      - data/processed/test_processed.csv
+      - models/scaler.pkl
+
+  train:
+    cmd: python3 src/train.py
+    deps:
+      - data/processed/train_processed.csv
+      - src/train.py
+      - params.yaml
+    outs:
+      - models/best_model.pkl
+    metrics:
+      - evaluation/metrics_train.json
+
+  test:
+    cmd: python3 src/test.py
+    deps:
+      - data/processed/test_processed.csv
+      - models/best_model.pkl
+      - src/test.py
+    metrics:
+      - evaluation/metrics_test.json
+
+  retrain:
+    cmd: python3 src/retrain_and_calibrate.py
+    deps:
+      - data/processed/train_processed.csv
+      - src/retrain_and_calibrate.py
+    outs:
+      - models/best_model_calibrated.pkl
+
+  explain:
+    cmd: python3 src/explain.py
+    deps:
+      - data/processed/train_processed.csv
+      - models/best_model_calibrated.pkl
+      - src/explain.py
+    outs:
+      - evaluation/shap_summary.png
+      - evaluation/shap_dependence.png
+      - evaluation/shap_force.html

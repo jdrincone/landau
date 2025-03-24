@@ -1,0 +1,134 @@
+schema: '2.0'
+stages:
+  generate_data:
+    cmd: python3 src/generate_data.py
+    deps:
+    - path: src/generate_data.py
+      hash: md5
+      md5: a949e99adf5a5029e97f6256d07a687c
+      size: 894
+    outs:
+    - path: data/raw/test.csv
+      hash: md5
+      md5: c3df68bd43368c4ef07706f3cb48b50f
+      size: 118016
+    - path: data/raw/train.csv
+      hash: md5
+      md5: 2c4a534ee0ea050188a3f99d186e4432
+      size: 274666
+  transform_data:
+    cmd: python3 src/transform_data.py
+    deps:
+    - path: data/raw/test.csv
+      hash: md5
+      md5: c3df68bd43368c4ef07706f3cb48b50f
+      size: 118016
+    - path: data/raw/train.csv
+      hash: md5
+      md5: 2c4a534ee0ea050188a3f99d186e4432
+      size: 274666
+    - path: src/transform_data.py
+      hash: md5
+      md5: 5c976f377d95b62402e3fe71568f37c4
+      size: 1504
+    outs:
+    - path: data/processed/test_processed.csv
+      hash: md5
+      md5: 4c3ed16405bf7c3792ac077a5b31e338
+      size: 118541
+    - path: data/processed/train_processed.csv
+      hash: md5
+      md5: ad5ae85ec6a7f9b3fb43411ab143c894
+      size: 276545
+    - path: models/scaler.pkl
+      hash: md5
+      md5: ce7f6fe66ff39597a0ef5311d0dbfbf0
+      size: 1719
+  train:
+    cmd: python3 src/train.py
+    deps:
+    - path: data/processed/train_processed.csv
+      hash: md5
+      md5: ad5ae85ec6a7f9b3fb43411ab143c894
+      size: 276545
+    - path: params.yaml
+      hash: md5
+      md5: cfa8d960a0eeb1468ae4100b7e740e74
+      size: 34
+    - path: src/train.py
+      hash: md5
+      md5: db1c1ec52d4b084ab00019fb270f3ca7
+      size: 2250
+    outs:
+    - path: evaluation/metrics_train.json
+      hash: md5
+      md5: 5c392d4c88dec02105f8a7c74e177105
+      size: 188
+    - path: models/best_model.pkl
+      hash: md5
+      md5: 406be0ccd0be5f6c46dfff2c9ce21f70
+      size: 1036985
+  test:
+    cmd: python3 src/test.py
+    deps:
+    - path: data/processed/test_processed.csv
+      hash: md5
+      md5: 4c3ed16405bf7c3792ac077a5b31e338
+      size: 118541
+    - path: models/best_model.pkl
+      hash: md5
+      md5: 406be0ccd0be5f6c46dfff2c9ce21f70
+      size: 1036985
+    - path: src/test.py
+      hash: md5
+      md5: 78b55974dc1fa29ad1a85e530d8fb089
+      size: 3241
+    outs:
+    - path: evaluation/metrics_test.json
+      hash: md5
+      md5: 5a9bdb3110b5e44c2e16006cb96b9cf5
+      size: 388
+  retrain:
+    cmd: python3 src/retrain_and_calibrate.py
+    deps:
+    - path: data/processed/train_processed.csv
+      hash: md5
+      md5: ad5ae85ec6a7f9b3fb43411ab143c894
+      size: 276545
+    - path: src/retrain_and_calibrate.py
+      hash: md5
+      md5: 40b4300d356372bf52a7825abb3e1162
+      size: 1041
+    outs:
+    - path: models/best_model_calibrated.pkl
+      hash: md5
+      md5: 6e94cf1b5a3180b9204e896fcf464411
+      size: 4564
+  explain:
+    cmd: python3 src/explain.py
+    deps:
+    - path: data/processed/train_processed.csv
+      hash: md5
+      md5: ad5ae85ec6a7f9b3fb43411ab143c894
+      size: 276545
+    - path: models/best_model_calibrated.pkl
+      hash: md5
+      md5: 6e94cf1b5a3180b9204e896fcf464411
+      size: 4564
+    - path: src/explain.py
+      hash: md5
+      md5: 52e2fd213e9c599e4505d2e6d0063fbf
+      size: 2647
+    outs:
+    - path: evaluation/shap_dependence.png
+      hash: md5
+      md5: bde986506cfbce166c9ecb821d848eb5
+      size: 56850
+    - path: evaluation/shap_force.html
+      hash: md5
+      md5: 0a9495bd0daaa49382ea17ad77551e9d
+      size: 305459
+    - path: evaluation/shap_summary.png
+      hash: md5
+      md5: 8d8b05dcda4d72dd04ac0614f6c5bee0
+      size: 121337
