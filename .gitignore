@@ -1,0 +1,5 @@
+# Ignorar outputs generados y datos versionados con DVC
+data/raw/*
+data/processed/*
+models/*
+evaluation/*
